@@ -1,0 +1,50 @@
+.col-2 {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin: auto;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  height: auto;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: #5584ac;
+}
+
+.borda {
+  border-left: 10px solid #5584ac;
+}
+
+img {
+  width: 70%;
+}
+
+@media (max-width: 767px) {
+  .col-2 {
+    display: grid;
+    grid-template-columns: 80%;
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+  }
+
+  .borda {
+    border-left: 0;
+    border-top: 10px solid #5584ac;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h2 {
+    margin-top: 100px;
+    font-size: larger;
+  }
+}

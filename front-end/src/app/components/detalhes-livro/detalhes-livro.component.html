@@ -1,0 +1,74 @@
+<div *ngIf="errorMsg; then kuririn; else freeza">Teste</div>
+
+<ng-template #freeza>
+  <div class="box">
+    <div class="box1">
+      <h2 id="Titulo" data-test="livro-titulo">{{ livro.titulo }}</h2>
+      <h3 id="Autor" data-test="livro-autor">{{ livro.autorDTO.nome }}</h3>
+    </div>
+    <div class="box2">
+      <div class="box-capa">
+        <img id="Capa" data-test="livro-capa" src="{{ livro.capa }}" />
+      </div>
+      <div class="box-preco">
+        <div>
+          <p data-test="livro-preco" id="Preco">
+            <strong>Preço:</strong> {{ livro.preco | currency: "BRL" }}
+          </p>
+        </div>
+        <div>
+          <button mat-raised-button [routerLink]='["/carrinho"]' (click) = "adicionarItemAoCarrinho(livro)" color="primary">COMPRAR</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="box3" id="Detalhes">
+      <h3>Informações do produto</h3>
+
+      <table class="mat-elevation-z2">
+        <tbody>
+          <tr>
+            <td class="titulo-coluna">Número de páginas:</td>
+            <td data-test="livro-numeroPaginas">{{ livro.numeroPaginas }}</td>
+          </tr>
+          <tr>
+            <td class="titulo-coluna">ISBN:</td>
+            <td data-test="livro-isbn">{{ livro.isbn }}</td>
+          </tr>
+          <tr>
+            <td class="titulo-coluna">Data de publicação:</td>
+            <td data-test="livro-dataPublicacao">
+              {{ livro.dataPublicacao | date: "dd/MM/yyyy" }}
+            </td>
+          </tr>
+          <tr>
+            <td>Sumário:</td>
+            <td><div [innerHTML]="livro.sumario"></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box3">
+      <h3>Informações do Autor</h3>
+      <table class="mat-elevation-z2">
+        <tbody>
+          <tr>
+            <td class="titulo-coluna">Nome:</td>
+            <td data-test="autor-nome">{{ livro.autorDTO.nome }}</td>
+          </tr>
+          <tr>
+            <td class="titulo-coluna">Contato:</td>
+            <td data-test="autor-contato">{{ livro.autorDTO.email }}</td>
+          </tr>
+          <tr>
+            <td class="titulo-coluna">Descrição:</td>
+            <td data-test="autor-descricao">{{ livro.autorDTO.descricao }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #kuririn><app-pagina-erro></app-pagina-erro></ng-template>

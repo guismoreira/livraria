@@ -1,0 +1,47 @@
+<div *ngIf="hasBooks; then listaLivros; else listaVazia"></div>
+<div class="spinner" *ngIf="isLoading">
+  <mat-progress-spinner color="primary" mode="indeterminate">
+  </mat-progress-spinner>
+</div>
+<ng-template #listaLivros>
+  <h1>Livros</h1>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    [pageSize]="10"
+    [length]="totalElements"
+    (page)="proximaPagina($event)"
+  >
+  </mat-paginator>
+
+  <div class="centro">
+    <div class="box">
+      <div *ngFor="let livro of livros" class="linha">
+        <a class="zoom" [routerLink]="['/livro', livro.id]">
+          <div class="capa">
+            <img
+              data-test="livro-capa"
+              mat-card-image
+              src="{{ livro.capa }}"
+              alt="capa do livro {{ livro.titulo }}"
+            />
+          </div>
+          <div class="titulo">
+            <h4 data-test="livro-titulo" id="titulo">{{ livro.titulo }}</h4>
+          </div>
+          <div class="autor">
+            <h5 data-test="livro-autor">{{ livro.autorDTO.nome }}</h5>
+          </div>
+          <div class="preco">
+            <span data-test="livro-preco">{{
+              livro.preco | currency: "BRL"
+            }}</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #listaVazia>
+  <h1>Ainda não há livros cadastrados nesta categoria.</h1>
+</ng-template>

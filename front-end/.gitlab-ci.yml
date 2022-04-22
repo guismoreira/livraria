@@ -1,0 +1,19 @@
+stages:
+  - build
+
+build-preprod:
+  stage: build
+  image: docker:18.09.7
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://localhost:2375
+  services:
+    - docker:18.09.7-dind
+  script:
+    - echo "livraria-io-app" | docker login --username=livraria-io-app --password=$HEROKU_AUTH_TOKEN registry.heroku.com/livraria-io-app/web
+    - docker build --pull --force-rm -f Dockerfile --iidfile imageid.txt -t registry.heroku.com/livraria-io-app/web .
+    - docker push registry.heroku.com/livraria-io-app/web
+    - apk add --no-cache curl
+    - echo "Docker Image ID is $(cat imageid.txt)"
+    - |-
+      curl -X PATCH https://api.heroku.com/apps/livraria-io-app/formation --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3.docker-releases" --header "Authorization: Bearer ${HEROKU_AUTH_TOKEN}" --data '{ "updates": [ { "type": "web", "docker_image": "'$(cat imageid.txt)'" } ] }'
